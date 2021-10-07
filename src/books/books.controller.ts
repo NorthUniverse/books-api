@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { BooksService } from './books.services';
+import { CreateBookDto } from './dto/create-book.dto';
 
 // Controller for books
 @Controller('books')
@@ -7,18 +8,14 @@ export class BooksController {
   constructor(private readonly booksService: BooksService) {}
   @Post()
   addBook(
-    @Body('title') title: string,
-    @Body('author') author: string,
-    @Body('description') description: string,
-    @Body('publicationDate') publicationDate: string,
-    @Body('image') image: string,
+    @Body() createBookDto: CreateBookDto
   ) {
     const generatedId = this.booksService.insertBook(
-      title,
-      author,
-      description,
-      publicationDate,
-      image,
+      createBookDto.title,
+      createBookDto.author,
+      createBookDto.description,
+      createBookDto.publicationDate,
+      createBookDto.image,
     );
     return { id: generatedId };
   }
