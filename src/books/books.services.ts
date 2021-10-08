@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import axios from 'axios';
 
 import { Book } from './book.module';
 
@@ -6,6 +7,7 @@ import { Book } from './book.module';
 @Injectable()
 export class BooksService {
   private books: Book[] = [];
+  private searchedBooks = [];
 
   // inserts a book into the books array(in memory)
   insertBook(
@@ -46,5 +48,18 @@ export class BooksService {
     }
     //array is a reference type, returing new arry instead of a point to the array
     return [...searchResults];
+  }
+
+  //gets books from google api
+  async getGoogleBooks() {
+    //key should be set an environement variable for security reasons, hard coding it for now for simplicity
+    const url = `https://www.googleapis.com/books/v1/volumes?q=pride+prejudice&download=epub&key=AIzaSyAstWK0_u4qtuMi-P4kVkhKN7jkozdG97Q`;
+    await this.getGoogleBooksFromApi(url);
+    return this.searchedBooks;
+  }
+
+  async getGoogleBooksFromApi(url: string) {
+    const response = await axios.get(url);
+    this.searchedBooks = response.data['items'];
   }
 }

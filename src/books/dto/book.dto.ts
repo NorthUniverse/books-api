@@ -1,4 +1,4 @@
-//Books Data Transfer Objects
+//Create Books Data Transfer Objects
 export class CreateBookDto {
   readonly id: string;
   readonly title: string;
@@ -6,4 +6,9 @@ export class CreateBookDto {
   readonly description: string;
   readonly publicationDate: string;
   readonly image: string;
+}
+
+//QueryParams Data Transfer Objects
+export class QueryParamDto {
+  q: string;
 }
