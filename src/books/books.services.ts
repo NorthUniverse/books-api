@@ -10,7 +10,7 @@ export class BooksService {
   private searchedBooks = [];
 
   // inserts a book into the books array(in memory)
-  async insertBook(
+  insertBook(
     title: string,
     author: string,
     description: string,
@@ -28,17 +28,17 @@ export class BooksService {
       image,
     );
     this.books.push(newBook);
-    return await bookId;
+    return bookId;
   }
 
   //gets all the books
-  async getBooks() {
+  getBooks() {
     //array is a reference type, returing new arry instead of a point to the array
-    return await [...this.books];
+    return [...this.books];
   }
 
   //gets all the books with title
-  async getSearchBooks(bookTitle: string) {
+  getSearchBooks(bookTitle: string) {
     const searchResults = this.books.filter((book) => {
       const eachBookTitle = book.title.toLowerCase();
       return eachBookTitle.includes(bookTitle.toLowerCase());
@@ -47,7 +47,7 @@ export class BooksService {
       throw new NotFoundException(`no books with ${bookTitle} found`);
     }
     //array is a reference type, returing new arry instead of a point to the array
-    return await  [...searchResults];
+    return [...searchResults];
   }
 
   //gets books from google api

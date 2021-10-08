@@ -7,7 +7,7 @@ import { CreateBookDto } from './dto/book.dto';
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
   @Post()
-  async addBook(@Body() createBookDto: CreateBookDto) {
+  addBook(@Body() createBookDto: CreateBookDto) {
     const generatedId = this.booksService.insertBook(
       createBookDto.title,
       createBookDto.author,
@@ -15,21 +15,21 @@ export class BooksController {
       createBookDto.publicationDate,
       createBookDto.image,
     );
-    return await { id: generatedId };
+    return { id: generatedId };
   }
 
   @Get()
-  async getAllBooks() {
-    return await this.booksService.getBooks();
+  getAllBooks() {
+    return this.booksService.getBooks();
   }
 
   @Get('google')
-  async getGoogleBooks() {
-    return await this.booksService.getGoogleBooks();
+  getGoogleBooks() {
+    return this.booksService.getGoogleBooks();
   }
 
   @Get(':bookTitle')
-  async getBooks(@Param('bookTitle') bookTitle: string) {
-    return await this.booksService.getSearchBooks(bookTitle);
+  getBooks(@Param('bookTitle') bookTitle: string) {
+    return this.booksService.getSearchBooks(bookTitle);
   }
 }
