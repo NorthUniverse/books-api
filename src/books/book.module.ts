@@ -3,9 +3,9 @@ export class Book {
   constructor(
     id: string,
     public title: string,
-    public author: string,
+    public authors: string[],
     public description: string,
     public publicationDate: string,
-    public image: string
+    public infoLink: string,
   ) {}
 }

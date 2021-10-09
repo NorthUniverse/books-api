@@ -2,13 +2,14 @@
 export class CreateBookDto {
   readonly id: string;
   readonly title: string;
-  readonly author: string;
+  readonly authors: string[];
   readonly description: string;
   readonly publicationDate: string;
-  readonly image: string;
+  readonly infoLink: string;
 }
 
 //QueryParams Data Transfer Objects
 export class QueryParamDto {
-  q: string;
+  searchQuery: string;
+  pagePagination: string;
 }
