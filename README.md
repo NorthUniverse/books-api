@@ -1,4 +1,4 @@
-<h1 align="center">Welcom to books-api.</h1>
+<h1 align="center">Welcome to books-api</h1>
 
 ## Description
 
