@@ -7,7 +7,7 @@ books-api exposes end point to
 1. Add book to memory
 2. Get books from memory
 3. Get books from memory with a specific title
-4. Get books from memory google-api
+4. Get books from google-api and sends the parsed data
 
 ## Installation
 
