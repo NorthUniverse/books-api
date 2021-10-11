@@ -6,8 +6,8 @@ import { QueryParamDto } from './dto/book.dto';
 // Controller for books
 @Controller('books')
 export class BooksController {
-  constructor(private readonly booksService: BooksService) { }
-  
+  constructor(private readonly booksService: BooksService) {}
+
   // Post call to add the book
   @Post()
   addBook(@Body() createBookDto: CreateBookDto) {
@@ -21,7 +21,7 @@ export class BooksController {
     return { id: generatedId };
   }
 
-    // Get call to add the book
+  // Get call to add the book
   @Get()
   getAllBooks() {
     return this.booksService.getBooks();
@@ -30,6 +30,7 @@ export class BooksController {
   //Get call to /books/search
   @Get('search')
   getGoogleBooks(@Query() reqParam: QueryParamDto) {
+    console.log(`${new Date()} ${reqParam.searchQuery}`);
     return this.booksService.getGoogleBooks(reqParam);
   }
 

@@ -55,7 +55,8 @@ export class BooksService {
   //gets books from google api, default search results shows 10 books.
   async getGoogleBooks(reqParam) {
     //secretKey should be set an environement variable for security reasons; Hard coding it for now for simplicity
-    const startIndex = reqParam.startIndex || '1';
+    this.clearMemory();
+    const startIndex = reqParam.startIndex || '0';
     const secretKey = 'AIzaSyAstWK0_u4qtuMi-P4kVkhKN7jkozdG97Q';
     const url = `https://www.googleapis.com/books/v1/volumes?q=${reqParam.searchQuery}&startIndex=${startIndex}&key=${secretKey}`;
     await this.getGoogleBooksFromApi(url);
@@ -73,7 +74,7 @@ export class BooksService {
     });
   }
 
-  parseBooks() {
+  parseBooks = () => {
     this.searchedBooks.forEach((bookItem) => {
       const newBook = new Book(
         bookItem.id,
@@ -85,5 +86,10 @@ export class BooksService {
       );
       this.searchedParsedBooks.push(newBook);
     });
+  }
+
+  clearMemory = () => {
+    this.totalItems = '';
+    this.searchedParsedBooks = [];
   }
 }
