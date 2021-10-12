@@ -17,6 +17,7 @@ export class BooksController {
       createBookDto.description,
       createBookDto.publicationDate,
       createBookDto.infoLink,
+      createBookDto.imageUrl,
     );
     return { id: generatedId };
   }

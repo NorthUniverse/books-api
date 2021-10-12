@@ -7,5 +7,6 @@ export class Book {
     public description: string,
     public publicationDate: string,
     public infoLink: string,
+    public imageUrl: string,
   ) {}
 }
