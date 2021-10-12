@@ -6,7 +6,6 @@ export class Book {
     public authors: string[],
     public description: string,
     public publicationDate: string,
-    public infoLink: string,
-    public imageUrl: string,
+    public infoLink: string
   ) {}
 }

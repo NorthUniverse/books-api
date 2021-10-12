@@ -17,8 +17,7 @@ export class BooksService {
     authors: string[],
     description: string,
     publicationDate: string,
-    infoLink: string,
-    imageUrl: string,
+    infoLink: string
   ) {
     // I'd use an library to generate unique ID here for simplicity using math.random now.
     const bookId = Math.random().toString();
@@ -28,8 +27,7 @@ export class BooksService {
       authors,
       description,
       publicationDate,
-      infoLink,
-      imageUrl,
+      infoLink
     );
     this.books.push(newBook);
     return bookId;
@@ -84,8 +82,7 @@ export class BooksService {
         bookItem.volumeInfo.authors,
         bookItem.volumeInfo.description,
         bookItem.volumeInfo.publishedDate,
-        bookItem.volumeInfo.infoLink,
-        bookItem.volumeInfo.imageLinks.thumbnail,
+        bookItem.volumeInfo.infoLink
       );
       this.searchedParsedBooks.push(newBook);
     });

@@ -6,7 +6,6 @@ export class CreateBookDto {
   readonly description: string;
   readonly publicationDate: string;
   readonly infoLink: string;
-  readonly imageUrl: string;
 }
 
 //QueryParams Data Transfer Objects
