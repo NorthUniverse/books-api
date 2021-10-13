@@ -11,5 +11,5 @@ export class CreateBookDto {
 //QueryParams Data Transfer Objects
 export class QueryParamDto {
   searchQuery: string;
-  pagePagination: string;
+  startIndex: string;
 }
