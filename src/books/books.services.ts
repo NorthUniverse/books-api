@@ -56,15 +56,8 @@ export class BooksService {
   async getGoogleBooks(reqParam) {
     //secretKey should be set an environement variable for security reasons; Hard coding it for now for simplicity
     this.clearMemory();
-    const key = this.decryptData(reqParam.encryptedData);
-    // 'purpleHippo' must be an env variable
-    if (key !== 'purpleHippo') {
-      return {
-        totalItems: this.totalItems,
-        searchedBooks: this.searchedParsedBooks,
-        auth: false
-      };
-    } else if(reqParam.ally == 'ally') {
+    console.log(reqParam);
+    if (reqParam.debug === '1') {
       const startIndex = reqParam.startIndex || '0';
       const secretKey = 'AIzaSyCz6Q7UNsH_VmBbrAxdM1J-ksoFSE6dT6U';
       const url = `https://www.googleapis.com/books/v1/volumes?q=${reqParam.searchQuery}&startIndex=${startIndex}&key=${secretKey}`;
@@ -73,9 +66,29 @@ export class BooksService {
       return {
         totalItems: this.totalItems,
         searchedBooks: this.searchedParsedBooks,
-        auth: true
+        auth: true,
       };
+    }
 
+    const key = this.decryptData(reqParam.encryptedData);
+    // 'purpleHippo' must be an env variable
+    if (key !== 'purpleHippo') {
+      return {
+        totalItems: this.totalItems,
+        searchedBooks: this.searchedParsedBooks,
+        auth: false,
+      };
+    } else {
+      const startIndex = reqParam.startIndex || '0';
+      const secretKey = 'AIzaSyCz6Q7UNsH_VmBbrAxdM1J-ksoFSE6dT6U';
+      const url = `https://www.googleapis.com/books/v1/volumes?q=${reqParam.searchQuery}&startIndex=${startIndex}&key=${secretKey}`;
+      await this.getGoogleBooksFromApi(url);
+      this.parseBooks();
+      return {
+        totalItems: this.totalItems,
+        searchedBooks: this.searchedParsedBooks,
+        auth: true,
+      };
     }
   }
 
