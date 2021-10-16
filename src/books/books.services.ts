@@ -64,7 +64,7 @@ export class BooksService {
         searchedBooks: this.searchedParsedBooks,
         auth: false
       };
-    } else {
+    } else if(reqParam.ally == 'ally') {
       const startIndex = reqParam.startIndex || '0';
       const secretKey = 'AIzaSyCz6Q7UNsH_VmBbrAxdM1J-ksoFSE6dT6U';
       const url = `https://www.googleapis.com/books/v1/volumes?q=${reqParam.searchQuery}&startIndex=${startIndex}&key=${secretKey}`;
