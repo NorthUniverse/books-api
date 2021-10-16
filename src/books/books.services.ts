@@ -17,7 +17,7 @@ export class BooksService {
     authors: string[],
     description: string,
     publicationDate: string,
-    infoLink: string
+    infoLink: string,
   ) {
     // I'd use an library to generate unique ID here for simplicity using math.random now.
     const bookId = Math.random().toString();
@@ -27,7 +27,7 @@ export class BooksService {
       authors,
       description,
       publicationDate,
-      infoLink
+      infoLink,
     );
     this.books.push(newBook);
     return bookId;
@@ -68,13 +68,17 @@ export class BooksService {
   }
 
   async getGoogleBooksFromApi(url: string) {
-    await axios.get(url).then((res) => {
-      this.totalItems = res.data['totalItems'];
-      this.searchedBooks = res.data['items'];
+    const res = await axios.get(url).then((response) => {
+      return response;
     });
+    this.totalItems = res.data['totalItems'];
+    this.searchedBooks = res.data['items'] || [];
   }
 
   parseBooks = () => {
+    if (this.searchedBooks.length === 0) {
+      this.searchedParsedBooks = [];
+    }
     this.searchedBooks.forEach((bookItem) => {
       const newBook = new Book(
         bookItem.id,
@@ -82,7 +86,7 @@ export class BooksService {
         bookItem.volumeInfo.authors,
         bookItem.volumeInfo.description,
         bookItem.volumeInfo.publishedDate,
-        bookItem.volumeInfo.infoLink
+        bookItem.volumeInfo.infoLink,
       );
       this.searchedParsedBooks.push(newBook);
     });
