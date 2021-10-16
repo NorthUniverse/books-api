@@ -56,7 +56,6 @@ export class BooksService {
   async getGoogleBooks(reqParam) {
     //secretKey should be set an environement variable for security reasons; Hard coding it for now for simplicity
     this.clearMemory();
-    console.log(reqParam);
     if (reqParam.debug === '1') {
       const startIndex = reqParam.startIndex || '0';
       const secretKey = 'AIzaSyCz6Q7UNsH_VmBbrAxdM1J-ksoFSE6dT6U';
