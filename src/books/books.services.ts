@@ -56,15 +56,26 @@ export class BooksService {
   async getGoogleBooks(reqParam) {
     //secretKey should be set an environement variable for security reasons; Hard coding it for now for simplicity
     this.clearMemory();
-    const startIndex = reqParam.startIndex || '0';
-    const secretKey = 'AIzaSyAstWK0_u4qtuMi-P4kVkhKN7jkozdG97Q';
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${reqParam.searchQuery}&startIndex=${startIndex}&key=${secretKey}`;
-    await this.getGoogleBooksFromApi(url);
-    this.parseBooks();
-    return {
-      totalItems: this.totalItems,
-      searchedBooks: this.searchedParsedBooks,
-    };
+    const key = this.decryptData(reqParam.encryptedData);
+    // 'purpleHippo' must be an env variable
+    if (key !== 'purpleHippo') {
+      return {
+        totalItems: this.totalItems,
+        searchedBooks: this.searchedParsedBooks,
+        auth: 'Not Authorized'
+      };
+    } else {
+      const startIndex = reqParam.startIndex || '0';
+      const secretKey = 'AIzaSyAstWK0_u4qtuMi-P4kVkhKN7jkozdG97Q';
+      const url = `https://www.googleapis.com/books/v1/volumes?q=${reqParam.searchQuery}&startIndex=${startIndex}&key=${secretKey}`;
+      await this.getGoogleBooksFromApi(url);
+      this.parseBooks();
+      return {
+        totalItems: this.totalItems,
+        searchedBooks: this.searchedParsedBooks,
+      };
+
+    }
   }
 
   async getGoogleBooksFromApi(url: string) {
@@ -95,5 +106,22 @@ export class BooksService {
   clearMemory = () => {
     this.totalItems = '';
     this.searchedParsedBooks = [];
+  };
+
+  // https://www.section.io/engineering-education/data-encryption-and-decryption-in-node-js-using-crypto/
+  decryptData = (data) => {
+    data = JSON.parse(data);
+    // Includes crypto module
+    const crypto = require('crypto');
+    const key = data.key;
+    let iv = Buffer.from(data.iv, 'hex');
+    let encryptedText = Buffer.from(data.encryptedData, 'hex');
+    // Creating Decipher
+    let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv);
+    // Updating encrypted text
+    let decrypted = decipher.update(encryptedText);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    // returns data after decryption
+    return decrypted.toString();
   };
 }
