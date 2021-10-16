@@ -30,6 +30,7 @@ export class BooksController {
   //Get call to /books/search
   @Get('search')
   getGoogleBooks(@Query() reqParam: QueryParamDto) {
+    // this is usualy logged in server logs, console logging this for now
     console.log(`${new Date()} ${reqParam.searchQuery}`);
     return this.booksService.getGoogleBooks(reqParam);
   }
