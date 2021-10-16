@@ -62,17 +62,18 @@ export class BooksService {
       return {
         totalItems: this.totalItems,
         searchedBooks: this.searchedParsedBooks,
-        auth: 'Not Authorized'
+        auth: false
       };
     } else {
       const startIndex = reqParam.startIndex || '0';
-      const secretKey = 'AIzaSyAstWK0_u4qtuMi-P4kVkhKN7jkozdG97Q';
+      const secretKey = 'AIzaSyCz6Q7UNsH_VmBbrAxdM1J-ksoFSE6dT6U';
       const url = `https://www.googleapis.com/books/v1/volumes?q=${reqParam.searchQuery}&startIndex=${startIndex}&key=${secretKey}`;
       await this.getGoogleBooksFromApi(url);
       this.parseBooks();
       return {
         totalItems: this.totalItems,
         searchedBooks: this.searchedParsedBooks,
+        auth: true
       };
 
     }
