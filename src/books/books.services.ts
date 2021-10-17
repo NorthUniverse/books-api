@@ -53,20 +53,10 @@ export class BooksService {
   }
 
   //gets books from google api, default search results shows 10 books.
-  async getGoogleBooks(reqParam) {
-    //secretKey should be set an environement variable for security reasons; Hard coding it for now for simplicity
+  getGoogleBooks(reqParam) {
     this.clearMemory();
     if (reqParam.debug === '1') {
-      const startIndex = reqParam.startIndex || '0';
-      const secretKey = 'AIzaSyCz6Q7UNsH_VmBbrAxdM1J-ksoFSE6dT6U';
-      const url = `https://www.googleapis.com/books/v1/volumes?q=${reqParam.searchQuery}&startIndex=${startIndex}&key=${secretKey}`;
-      await this.getGoogleBooksFromApi(url);
-      this.parseBooks();
-      return {
-        totalItems: this.totalItems,
-        searchedBooks: this.searchedParsedBooks,
-        auth: true,
-      };
+      return this.getGoogleBooksHelper(reqParam);
     }
 
     const key = this.decryptData(reqParam.encryptedData);
@@ -78,17 +68,22 @@ export class BooksService {
         auth: false,
       };
     } else {
-      const startIndex = reqParam.startIndex || '0';
-      const secretKey = 'AIzaSyCz6Q7UNsH_VmBbrAxdM1J-ksoFSE6dT6U';
-      const url = `https://www.googleapis.com/books/v1/volumes?q=${reqParam.searchQuery}&startIndex=${startIndex}&key=${secretKey}`;
-      await this.getGoogleBooksFromApi(url);
-      this.parseBooks();
-      return {
-        totalItems: this.totalItems,
-        searchedBooks: this.searchedParsedBooks,
-        auth: true,
-      };
+      return this.getGoogleBooksHelper(reqParam);
     }
+  }
+
+  async getGoogleBooksHelper(reqParam) {
+    const startIndex = reqParam.startIndex || '0';
+    //secretKey should be set an environement variable for security reasons; Hard coding it for now for simplicity
+    const secretKey = 'AIzaSyCz6Q7UNsH_VmBbrAxdM1J-ksoFSE6dT6U';
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${reqParam.searchQuery}&startIndex=${startIndex}&key=${secretKey}`;
+    await this.getGoogleBooksFromApi(url);
+    this.parseBooks();
+    return {
+      totalItems: this.totalItems,
+      searchedBooks: this.searchedParsedBooks,
+      auth: true,
+    };
   }
 
   async getGoogleBooksFromApi(url: string) {
